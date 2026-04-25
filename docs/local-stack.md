@@ -7,6 +7,8 @@ This repo is a local sandbox for the Tiger Team agent platform ideas.
 - Runtime: Colima Docker VM
 - Kubernetes: kind cluster `agent-platform-poc`
 - kube context: `kind-agent-platform-poc`
+- Third-party chart values: `helm-values/`
+- Local sandbox chart: `charts/agent-platform-poc/`
 
 ## Installed Components
 
@@ -25,6 +27,12 @@ colima start
 kubectl config use-context kind-agent-platform-poc
 kubectl get pods -A
 helm list -A
+```
+
+Reinstall or repair the stack from repo config:
+
+```sh
+scripts/bootstrap-stack.sh
 ```
 
 Port-forward the kagent UI:

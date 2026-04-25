@@ -21,12 +21,7 @@ kind create cluster --name agent-platform-poc --wait 120s
 Core components:
 
 ```sh
-kagent install --profile minimal
-helm upgrade -i toolhive-operator-crds oci://ghcr.io/stacklok/toolhive/toolhive-operator-crds
-helm upgrade -i toolhive-operator oci://ghcr.io/stacklok/toolhive/toolhive-operator -n toolhive-system --create-namespace
-kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/standard-install.yaml
-helm upgrade -i --create-namespace --namespace agentgateway-system --version v2.2.1 agentgateway-crds oci://ghcr.io/kgateway-dev/charts/agentgateway-crds
-helm upgrade -i -n agentgateway-system agentgateway oci://ghcr.io/kgateway-dev/charts/agentgateway --version v2.2.1
+scripts/bootstrap-stack.sh
 ```
 
 Sandbox-owned resources are managed by the chart in `charts/agent-platform-poc`.
@@ -34,6 +29,8 @@ Sandbox-owned resources are managed by the chart in `charts/agent-platform-poc`.
 ```sh
 helm upgrade --install agent-platform-poc ./charts/agent-platform-poc -n agent-platform-poc --create-namespace
 ```
+
+Third-party chart values are in `helm-values/`.
 
 ## kagent UI
 
@@ -66,4 +63,3 @@ The chart creates a kagent `ModelConfig` named `openrouter-kimi-k2-6` for `moons
 ## Sample Projects
 
 See `sample-projects/` for workflow experiments.
-

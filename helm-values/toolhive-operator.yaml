@@ -1,0 +1,11 @@
+# Local ToolHive operator values.
+#
+# Defaults are fine for the sandbox; this file exists so changes are
+# source-controlled when we start tuning registry, auth, or virtual MCP support.
+operator:
+  features:
+    registry: true
+    server: true
+    virtualMCP: true
+    experimental: false
+

@@ -1,0 +1,7 @@
+# Local AgentGateway values.
+#
+# Defaults are intentionally preserved for now. Add gateway routing, service
+# type, or resource settings here as the gateway experiments become concrete.
+controller:
+  replicaCount: 1
+
