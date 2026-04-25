@@ -1,0 +1,13 @@
+Agent Platform POC resources installed.
+
+Create the OpenRouter secret separately:
+
+  kubectl create secret generic {{ .Values.kagent.openrouter.secretName }} \
+    -n {{ .Values.kagent.namespace }} \
+    --from-literal {{ .Values.kagent.openrouter.secretKey }}="$OPENROUTER_API_KEY" \
+    --dry-run=client -o yaml | kubectl apply -f -
+
+Open the kagent UI:
+
+  kubectl port-forward -n {{ .Values.kagent.namespace }} svc/kagent-ui 8082:8080
+

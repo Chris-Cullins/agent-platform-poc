@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.referenceTenant.namespace | quote }}
+  labels:
+    agent-platform.local/tenant-id: {{ .Values.referenceTenant.tenantId | quote }}
+    agent-platform.local/app-id: {{ .Values.referenceTenant.appId | quote }}
+---
+{{- if .Values.toolhive.fetch.enabled }}
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: fetch
+  namespace: {{ .Values.referenceTenant.namespace | quote }}
+  labels:
+    agent-platform.local/tool-risk: read-only
+spec:
+  image: {{ .Values.toolhive.fetch.image | quote }}
+  transport: {{ .Values.toolhive.fetch.transport }}
+  mcpPort: {{ .Values.toolhive.fetch.port }}
+  proxyPort: {{ .Values.toolhive.fetch.port }}
+  permissionProfile:
+    type: builtin
+    name: network
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+{{- end }}
+---
+apiVersion: kagent.dev/v1alpha2
+kind: RemoteMCPServer
+metadata:
+  name: platform-reference-fetch
+  namespace: {{ .Values.kagent.namespace | quote }}
+  labels:
+    agent-platform.local/tenant-id: {{ .Values.referenceTenant.tenantId | quote }}
+    agent-platform.local/tool-risk: read-only
+spec:
+  description: ToolHive-managed fetch MCP server for the local platform-reference sandbox.
+  protocol: STREAMABLE_HTTP
+  url: http://mcp-fetch-proxy.{{ .Values.referenceTenant.namespace }}.svc.cluster.local:{{ .Values.toolhive.fetch.port }}/mcp
+  timeout: 30s
+  allowedNamespaces:
+    from: All
+

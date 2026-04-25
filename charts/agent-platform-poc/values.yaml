@@ -1,0 +1,23 @@
+referenceTenant:
+  namespace: platform-reference
+  tenantId: platform-reference
+  appId: local-sandbox
+
+toolhive:
+  fetch:
+    enabled: true
+    image: ghcr.io/stackloklabs/gofetch/server:1.0.3
+    transport: streamable-http
+    port: 8080
+
+kagent:
+  namespace: kagent
+  openrouter:
+    enabled: true
+    modelConfigName: openrouter-kimi-k2-6
+    secretName: kagent-openrouter
+    secretKey: OPENROUTER_API_KEY
+    model: moonshotai/kimi-k2.6
+    baseUrl: https://openrouter.ai/api/v1
+    temperature: "0.2"
+

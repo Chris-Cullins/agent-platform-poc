@@ -1,0 +1,13 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Local kube and tool state should stay outside this repo.
+.kube/
+.kagent/
+.toolhive/
+
+# Generated chart packages.
+*.tgz
+

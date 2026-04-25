@@ -1,0 +1,20 @@
+{{- if .Values.kagent.openrouter.enabled }}
+apiVersion: kagent.dev/v1alpha2
+kind: ModelConfig
+metadata:
+  name: {{ .Values.kagent.openrouter.modelConfigName | quote }}
+  namespace: {{ .Values.kagent.namespace | quote }}
+  labels:
+    agent-platform.local/gateway: openrouter
+spec:
+  provider: OpenAI
+  model: {{ .Values.kagent.openrouter.model | quote }}
+  apiKeySecret: {{ .Values.kagent.openrouter.secretName | quote }}
+  apiKeySecretKey: {{ .Values.kagent.openrouter.secretKey | quote }}
+  defaultHeaders:
+    X-Title: agent-platform-poc
+  openAI:
+    baseUrl: {{ .Values.kagent.openrouter.baseUrl | quote }}
+    temperature: {{ .Values.kagent.openrouter.temperature | quote }}
+{{- end }}
+

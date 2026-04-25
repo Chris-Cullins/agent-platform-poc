@@ -1,0 +1,17 @@
+apiVersion: kagent.dev/v1alpha2
+kind: ModelConfig
+metadata:
+  name: openrouter-kimi-k2-6
+  namespace: kagent
+  labels:
+    agent-platform.local/gateway: openrouter
+spec:
+  provider: OpenAI
+  model: moonshotai/kimi-k2.6
+  apiKeySecret: kagent-openrouter
+  apiKeySecretKey: OPENROUTER_API_KEY
+  defaultHeaders:
+    X-Title: agent-platform-poc
+  openAI:
+    baseUrl: https://openrouter.ai/api/v1
+    temperature: "0.2"

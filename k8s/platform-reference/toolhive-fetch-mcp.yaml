@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-reference
+  labels:
+    agent-platform.local/tenant-id: platform-reference
+    agent-platform.local/app-id: local-sandbox
+---
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: fetch
+  namespace: platform-reference
+  labels:
+    agent-platform.local/tool-risk: read-only
+spec:
+  image: ghcr.io/stackloklabs/gofetch/server:1.0.3
+  transport: streamable-http
+  mcpPort: 8080
+  proxyPort: 8080
+  permissionProfile:
+    type: builtin
+    name: network
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+---
+apiVersion: kagent.dev/v1alpha2
+kind: RemoteMCPServer
+metadata:
+  name: platform-reference-fetch
+  namespace: kagent
+  labels:
+    agent-platform.local/tenant-id: platform-reference
+    agent-platform.local/tool-risk: read-only
+spec:
+  description: ToolHive-managed fetch MCP server for the local platform-reference sandbox.
+  protocol: STREAMABLE_HTTP
+  url: http://mcp-fetch-proxy.platform-reference.svc.cluster.local:8080/mcp
+  timeout: 30s
+  allowedNamespaces:
+    from: All
